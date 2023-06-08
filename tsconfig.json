@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "jsx": "react-jsx",
+    },
+    "include": [
+        "./src/**/*"
+    ],
+}

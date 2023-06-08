@@ -1,0 +1,13 @@
+.virtual-list-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+
+    flex-direction: row;
+
+}
+
+.virtual-list-items {
+    flex-grow: 1;
+}
