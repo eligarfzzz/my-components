@@ -1,5 +1,5 @@
-import { PropsWithChildren, useEffect, useLayoutEffect, useRef, useState } from "react";
-import "./VirtualList.scss"
+import { useLayoutEffect, useRef, useState } from "react";
+import "./index.scss"
 interface VirtualListProps<T> {
     delegate: (item: T) => JSX.Element
     items: T[]
@@ -19,9 +19,9 @@ export default function VirtualList<T>(props: VirtualListProps<T>) {
             setHeight(eleRef.current.clientHeight)
             setWidth(eleRef.current.clientWidth)
         }
-    })
+    }, [])
 
-    const scrollBarRef = useRef(null)
+    const scrollBarRef = useRef<HTMLDivElement>(null)
 
     // measure first displayed item offset
     const firstItemOffset = props.scrollPosition % props.itemHeight
@@ -33,13 +33,13 @@ export default function VirtualList<T>(props: VirtualListProps<T>) {
 
     const displayItems = props.items.slice(jumpItemNumber, jumpItemNumber + displayItemNumber + 1).map(props.delegate)
 
-    const eleRef = useRef(null)
+    const eleRef = useRef<HTMLDivElement>(null)
 
     return <div className="virtual-list-container" ref={eleRef}>
         <div className="virtual-list-items" onWheel={(e) => {
             if (scrollBarRef) {
                 // let ev = scrollBarRef.current.dispatchEvent(new WheelEvent(e.nativeEvent.type), e.)
-                scrollBarRef.current.scroll({
+                scrollBarRef.current?.scroll({
                     top: scrollBarRef.current.scrollTop + e.deltaY,
                     left: scrollBarRef.current.scrollLeft + e.deltaY,
                     behavior: "smooth",
@@ -52,7 +52,7 @@ export default function VirtualList<T>(props: VirtualListProps<T>) {
             height < props.itemHeight * props.items.length ?
                 <div ref={scrollBarRef} style={{ height: "100%", width: "auto", overflowY: "scroll" }} onScroll={
                     () => {
-                        if (scrollBarRef) {
+                        if (scrollBarRef.current) {
                             props.onScroll(scrollBarRef.current.scrollTop)
                         }
                     }
